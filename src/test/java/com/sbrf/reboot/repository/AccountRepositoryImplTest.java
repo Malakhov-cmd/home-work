@@ -27,9 +27,7 @@ class AccountRepositoryImplTest {
             add("4-ACC1NUM");
         }};
 
-        allAccountsByClientId.forEach(e -> {
-            assertTrue(strings.contains(e.getNumber()));
-        });
+        allAccountsByClientId.forEach(e -> assertTrue(strings.contains(e.getNumber())));
     }
 
     @Test
