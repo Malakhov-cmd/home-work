@@ -1,49 +1,46 @@
 package com.sbrf.reboot.repository;
 
-import com.sbrf.reboot.dto.Account;
-import org.junit.jupiter.api.Assertions;
+import com.sbrf.reboot.repository.impl.FileAccountRepository;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AccountRepositoryImplTest {
 
     AccountRepository accountRepository;
 
-
     @Test
-    void onlyPersonalAccounts() throws FileNotFoundException {
-        accountRepository = new AccountRepositoryImpl("src/main/resources/Accounts.txt");
-        Set<Account> allAccountsByClientId = accountRepository.getAllAccountsByClientId(1);
-        ArrayList<String> strings = new ArrayList<String>() {{
-            add("2-ACCNUM");
-            add("1-ACCNUM");
-            add("4-ACC1NUM");
+    void onlyPersonalAccounts() throws IOException {
+        String filePath = "src/main/resources/Accounts.txt";
+        accountRepository = new FileAccountRepository(filePath);
+
+        long clientId = 1L;
+        Set<Long> actualAccounts = accountRepository.getAllAccountsByClientId(clientId);
+
+        Set<Long> expected = new HashSet<Long>() {{
+            add(111L);
+            add(222L);
+            add(333L);
         }};
 
-        allAccountsByClientId.forEach(e -> assertTrue(strings.contains(e.getNumber())));
-    }
-
-    @Test
-    void successGetAllAccountsByClientId() throws FileNotFoundException {
-        accountRepository = new AccountRepositoryImpl("src/main/resources/Accounts.txt");
-        Set<Account> allAccountsByClientId = accountRepository.getAllAccountsByClientId(1);
-
-        assertEquals(1, (int) allAccountsByClientId.stream().filter(e -> e.getNumber().equals("4-ACC1NUM")).count());
+        actualAccounts.forEach(e -> assertTrue(expected.contains(e)));
     }
 
     @Test
     void failGetAllAccountsByClientId() {
-        accountRepository = new AccountRepositoryImpl("somePath");
-        assertThrows(FileNotFoundException.class, () -> {
-            accountRepository.getAllAccountsByClientId(1L);
-        });
+        long clientId = 1L;
+
+        String filePath = "somePath";
+
+        accountRepository = new FileAccountRepository(filePath);
+
+        assertThrows(FileNotFoundException.class, () -> accountRepository.getAllAccountsByClientId(clientId));
     }
 
 
