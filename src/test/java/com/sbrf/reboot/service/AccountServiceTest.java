@@ -1,5 +1,6 @@
 package com.sbrf.reboot.service;
 
+import com.sbrf.reboot.AccountService;
 import com.sbrf.reboot.repository.AccountRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,6 +52,24 @@ class AccountServiceTest {
         when(accountRepository.getAllAccountsByClientId(clientId)).thenReturn(accounts);
 
         assertFalse(accountService.isClientHasContract(clientId, contractNumber));
+    }
+
+    @Test
+    void clientContractExist() {
+        long accountId = 111L;
+
+        when(accountRepository.getAccountById(accountId)).thenReturn(accountId);
+
+        assertTrue(accountService.isContractCreated(accountId));
+    }
+
+    @Test
+    void clientContractNotExist() {
+        long accountId = 111L;
+
+        when(accountRepository.getAccountById(accountId)).thenReturn(null);
+
+        assertFalse(accountService.isContractCreated(accountId));
     }
 
     @Test
