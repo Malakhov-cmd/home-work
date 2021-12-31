@@ -43,5 +43,35 @@ class FileAccountRepositoryTest {
         assertThrows(FileNotFoundException.class, () -> accountRepository.getAllAccountsByClientId(clientId));
     }
 
+    @Test
+    void onChangingAccountNumber() throws IOException {
+        String filePath = "src/main/resources/Accounts.txt";
+        accountRepository = new FileAccountRepository(filePath);
 
+        long clientId = 1L;
+
+        accountRepository.changeAccountByClientIdAndOldAccountNumber(
+                clientId, 111L, 999L);
+
+        Set<Long> actualAccounts = accountRepository.getAllAccountsByClientId(clientId);
+
+        Set<Long> expected = new HashSet<Long>() {{
+            add(999L);
+            add(222L);
+            add(333L);
+        }};
+
+        actualAccounts.forEach(e -> assertTrue(expected.contains(e)));
+    }
+
+    @Test
+    void onChangingAccountBooleanTest() throws IOException {
+        String filePath = "src/main/resources/Accounts.txt";
+        accountRepository = new FileAccountRepository(filePath);
+
+        long clientId = 1L;
+
+        assertTrue( accountRepository.changeAccountByClientIdAndOldAccountNumber(
+                clientId, 222L, 0L));
+    }
 }
