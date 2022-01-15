@@ -2,7 +2,7 @@ package com.sbrf.reboot.collections;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -29,9 +29,8 @@ public class CollectionsTest {
     @Test
     public void addStudentToRating() {
 
-        List<String> students = null;
-
-        //...
+        List<String> students = new ArrayList<>(Arrays.asList("Иванов", "Петров", "Сидоров"));
+        students.add(0, "Козлов");
 
         assertEquals(4, students.size());
     }
@@ -48,10 +47,7 @@ public class CollectionsTest {
      */
     @Test
     public void addMoneyToBox() {
-
-        List<Integer> moneyBox = null;
-
-        //...
+        Set<Integer> moneyBox = new HashSet<>(Arrays.asList(1,2,3,4,5,10,25,50,100,200));
 
         assertEquals(10, moneyBox.size());
     }
@@ -71,12 +67,43 @@ public class CollectionsTest {
         class Book {
         }
 
-        List<Book> bookshelf = null;
+        Map<Integer, Book> bookshelf = new HashMap<>();
 
-        //...
+        bookshelf.put(0, new Book());
+        bookshelf.put(1, new Book());
+        bookshelf.put(2, new Book());
+
+        Book bookToRead = bookshelf.remove(1);
+        /*
+        Процесс чтения
+         */
+
+        //возврат книги на ее место
+        bookshelf.put(1, bookToRead);
 
         assertEquals(3, bookshelf.size());
     }
 
+    /*
+     * Задача.
+     * В банке хранятся номер счета и сведения о владельце.
+     * В большенстве случаев обращения к банку требуется найти сведения клиента, реже требуется зарегестрировать новый счет.
+     *
+     * Вопрос.
+     * Какую коллекцию из Collections framework вы предпочтете использовать для счетов и информации о его владельце.
+     *
+     * Проинициализируйте bankRepo, добавьте в него 5 счетов что бы тест завершился успешно.
+     */
+    @Test
+    public void addAccount(){
+        Map<Integer, String> bankRepo = new TreeMap<>();
 
+        bankRepo.put(78, "James Gandolfini");
+        bankRepo.put(13, "Steve Bushemi");
+        bankRepo.put(28, "Loren Branko");
+        bankRepo.put(99, "Micle Imperriolly");
+        bankRepo.put(45, "Eddy Falco");
+
+        assertEquals(5, bankRepo.size());
+    }
 }
