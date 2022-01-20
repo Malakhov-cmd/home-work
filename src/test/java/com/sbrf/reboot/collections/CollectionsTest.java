@@ -1,5 +1,9 @@
 package com.sbrf.reboot.collections;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -29,8 +33,7 @@ public class CollectionsTest {
     @Test
     public void addStudentToRating() {
 
-        List<String> students = new ArrayList<>(Arrays.asList("Иванов", "Петров", "Сидоров"));
-        students.add(0, "Козлов");
+        List<String> students = new LinkedList<>(Arrays.asList("Козлов", "Иванов", "Петров", "Сидоров"));
 
         assertEquals(4, students.size());
     }
@@ -67,43 +70,25 @@ public class CollectionsTest {
         class Book {
         }
 
-        Map<Integer, Book> bookshelf = new HashMap<>();
-
-        bookshelf.put(0, new Book());
-        bookshelf.put(1, new Book());
-        bookshelf.put(2, new Book());
-
-        Book bookToRead = bookshelf.remove(1);
-        /*
-        Процесс чтения
-         */
-
-        //возврат книги на ее место
-        bookshelf.put(1, bookToRead);
+        List<Book> bookshelf = new ArrayList<>(Arrays.asList(new Book(), new Book(), new Book()));
 
         assertEquals(3, bookshelf.size());
     }
 
     /*
      * Задача.
-     * В банке хранятся номер счета и сведения о владельце.
-     * В большенстве случаев обращения к банку требуется найти сведения клиента, реже требуется зарегестрировать новый счет.
+     * В аккаунте пользователя банка хранятся уникальные идентификаторы операций.
+     * В большенстве случаев обращения к банковскому аккаунту требуется найти уникальный идентификатор, реже требуется зарегестрировать новую операцию.
      *
      * Вопрос.
-     * Какую коллекцию из Collections framework вы предпочтете использовать для счетов и информации о его владельце.
+     * Какую коллекцию из Collections framework вы предпочтете использовать данной структуры.
      *
-     * Проинициализируйте bankRepo, добавьте в него 5 счетов что бы тест завершился успешно.
+     * Проинициализируйте operations, добавьте в него 5 идентификаторов, чтобы тест завершился успешно.
      */
     @Test
     public void addAccount(){
-        Map<Integer, String> bankRepo = new TreeMap<>();
+        Set<Integer> operations = new TreeSet<>(Arrays.asList(47,32,5,92,55));
 
-        bankRepo.put(78, "James Gandolfini");
-        bankRepo.put(13, "Steve Bushemi");
-        bankRepo.put(28, "Loren Branko");
-        bankRepo.put(99, "Micle Imperriolly");
-        bankRepo.put(45, "Eddy Falco");
-
-        assertEquals(5, bankRepo.size());
+        assertEquals(5, operations.size());
     }
 }
