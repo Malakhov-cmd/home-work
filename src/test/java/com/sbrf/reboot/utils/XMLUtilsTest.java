@@ -34,5 +34,4 @@ class XMLUtilsTest {
         Response request = XMLUtils.XMLtoResponse("<Response><statusCode>SUCCESS</statusCode></Response>");
         Assertions.assertEquals("SUCCESS", request.getStatusCode());
     }
-
 }
