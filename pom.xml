@@ -36,6 +36,7 @@
 
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
 
+        <jackson-databind.version>2.12.4</jackson-databind.version>
     </properties>
 
     <dependencies>
