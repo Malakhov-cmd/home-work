@@ -2,6 +2,7 @@ package com.sbrf.reboot.repository.impl;
 
 import com.sbrf.reboot.dto.Customer;
 import com.sbrf.reboot.repository.CustomerRepository;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -16,6 +17,7 @@ class CustomerH2RepositoryTest {
     @BeforeAll
     public static void before() {
         customerRepository = new CustomerH2Repository();
+        customerRepository.createCustomerTable();
     }
 
     @Test
@@ -33,5 +35,22 @@ class CustomerH2RepositoryTest {
         boolean mariaCreated = customerRepository.createCustomer("Maria", "maria98@ya.ru");
 
         assertTrue(mariaCreated);
+    }
+
+    @Test
+    void deleteCustomerById() {
+        customerRepository.createCustomer("Gansales", "dangerios@yastreb.ru");
+        customerRepository.createCustomer("Pico", "laud@ya.ru");
+
+        customerRepository.deleteCustomer(2L);
+
+        List<Customer> customers = customerRepository.getAll();
+
+        assertTrue(customers.stream().noneMatch(item -> item.getName().equals("Gansales")));
+    }
+
+    @AfterAll
+    public static void after(){
+        customerRepository.deleteTableCustomer();
     }
 }
