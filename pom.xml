@@ -32,7 +32,10 @@
         <mockito-core.version>3.11.2</mockito-core.version>
         <jackson-databind.version>2.13.1</jackson-databind.version>
         <h2.version>1.4.199</h2.version>
+        <jackson-dataformat-xml.version>2.11.1</jackson-dataformat-xml.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+
+        <jackson-databind.version>2.12.4</jackson-databind.version>
     </properties>
 
     <dependencies>
@@ -65,6 +68,11 @@
             <artifactId>h2</artifactId>
             <version>${h2.version}</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${jackson-dataformat-xml.version}</version>
         </dependency>
     </dependencies>
 
