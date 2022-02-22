@@ -19,14 +19,12 @@ public class SomeService {
         final Future<String> handler = executor.submit(new Callable() {
             @Override
             public String call() throws Exception {
-
-                // Реализуйте отправку отчета используя CompletableFuture
-                String reportResult = reportService.sendReport("Отправляю отчет");
+                Future<String> asyncCompletable = asyncSendReport();
 
                 //какой то код..
                 Thread.sleep(Duration.ofSeconds(3).toMillis());
 
-                if (reportResult.equals("SUCCESS")) {
+                if (asyncCompletable.get().equals("SUCCESS")) {
                     System.out.println("Отчет отправлен успешно");
                 }
 
@@ -39,4 +37,16 @@ public class SomeService {
         executor.shutdownNow();
 
     }
+
+    public Future<String> asyncSendReport() {
+        CompletableFuture<String> completableFuture = new CompletableFuture<>();
+
+        Executors.newFixedThreadPool(7).submit(() -> {
+            completableFuture.complete(reportService.sendReport("Отправляю отчет"));
+            return null;
+        });
+
+        return completableFuture;
+    }
+
 }
