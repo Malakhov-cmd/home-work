@@ -39,14 +39,7 @@ public class SomeService {
     }
 
     public Future<String> asyncSendReport() {
-        CompletableFuture<String> completableFuture = new CompletableFuture<>();
-
-        Executors.newFixedThreadPool(7).submit(() -> {
-            completableFuture.complete(reportService.sendReport("Отправляю отчет"));
-            return null;
-        });
-
-        return completableFuture;
+        return CompletableFuture
+                .supplyAsync(() -> reportService.sendReport("Отправляю отчет"));
     }
-
 }
